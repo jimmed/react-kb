@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react";
 import { KeyboardShortcutsContext } from "../context";
 import { Sequence } from "../types";
 
-export const useKeyboardShortcuts = (
+export const useKeyboardShortcut = (
   sequence: Sequence,
   callback: () => void
 ) => {

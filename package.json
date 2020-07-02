@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "author": "Jim O'Brien <git@jimmed.net>",
   "license": "MIT",
-  "main": "./dist/index.ts",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "jest"
