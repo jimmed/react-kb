@@ -176,4 +176,24 @@ describe("useSet", () => {
       expect(hook.result.current.toArray()).toEqual([]);
     });
   });
+
+  describe("size", () => {
+    beforeEach(() => render([1, 2, 3]));
+
+    it("equals the number of elements in the underlying Set", () => {
+      expect(hook.result.current.size).toBe(3);
+    });
+  });
+
+  describe("has", () => {
+    beforeEach(() => render([1, 2, 3]));
+
+    it("returns true if the value is present in the underlying Set", () => {
+      expect(hook.result.current.has(2)).toBeTruthy();
+    });
+
+    it("returns false if the value is not present in the underlying Set", () => {
+      expect(hook.result.current.has(4)).toBeFalsy();
+    });
+  });
 });

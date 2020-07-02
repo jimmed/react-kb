@@ -1,13 +1,21 @@
 import { useCallback, useMemo } from "react";
-import { Sequence } from "../types";
+import { RegisterKeyboardShortcut, Sequence } from "../types";
 import { useSet } from "./useSet";
 
 export const useMappingState = () => {
-  const mappings = useSet<{ sequence: string[]; callback: () => void }>();
+  const mappings = useSet<{
+    sequence: string[];
+    callback: () => void;
+    preventDefault?: boolean;
+  }>();
 
-  const register = useCallback(
-    (sequence: Sequence, callback: () => void) => {
-      const mapping = { sequence: normalizeSequence(sequence), callback };
+  const register = useCallback<RegisterKeyboardShortcut>(
+    (sequence, callback, preventDefault = true) => {
+      const mapping = {
+        sequence: normalizeSequence(sequence),
+        callback,
+        preventDefault,
+      };
       mappings.add(mapping);
       return () => {
         mappings.delete(mapping);

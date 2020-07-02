@@ -4,8 +4,13 @@ import { Sequence } from "../types";
 
 export const useKeyboardShortcut = (
   sequence: Sequence,
-  callback: () => void
+  callback: () => void,
+  preventDefault = true
 ) => {
   const register = useContext(KeyboardShortcutsContext);
-  useEffect(() => register(sequence, callback), [sequence, callback]);
+  useEffect(() => register(sequence, callback, preventDefault), [
+    sequence,
+    callback,
+    preventDefault,
+  ]);
 };

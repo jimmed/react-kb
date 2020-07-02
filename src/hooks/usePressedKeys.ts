@@ -8,33 +8,28 @@ export const usePressedKeys = (
 ): ProxiedSet<string> => {
   const pressed = useSet<string>();
 
-  useEventListener(
-    target,
-    "keydown",
-    useCallback(
-      (event) => {
-        const { key, defaultPrevented } = event as KeyboardEvent;
-        if (!defaultPrevented && (!watchedKeys || watchedKeys.includes(key))) {
-          pressed.add(key);
-        }
-      },
-      [pressed]
-    )
+  const handleKeyDown = useCallback(
+    (event) => {
+      const { key, defaultPrevented } = event as KeyboardEvent;
+      if (!defaultPrevented && (!watchedKeys || watchedKeys.includes(key))) {
+        pressed.add(key);
+      }
+    },
+    [pressed]
   );
 
-  useEventListener(
-    target,
-    "keyup",
-    useCallback(
-      (event) => {
-        const { key, defaultPrevented } = event as KeyboardEvent;
-        if (!defaultPrevented) {
-          pressed.delete(key);
-        }
-      },
-      [pressed]
-    )
+  const handleKeyUp = useCallback(
+    (event) => {
+      const { key, defaultPrevented } = event as KeyboardEvent;
+      if (!defaultPrevented) {
+        pressed.delete(key);
+      }
+    },
+    [pressed]
   );
+
+  useEventListener(target, "keydown", handleKeyDown);
+  useEventListener(target, "keyup", handleKeyUp);
 
   return pressed;
 };

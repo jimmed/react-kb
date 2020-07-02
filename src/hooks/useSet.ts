@@ -38,7 +38,8 @@ export const makeSetImmutable = <S>(
         case "toArray":
           return () => Array.from(set);
         default:
-          return Reflect.get(set, key, r);
+          const value = set[key as keyof Set<S>];
+          return typeof value === "function" ? value.bind(set) : value;
       }
     },
   }) as ProxiedSet<S>;

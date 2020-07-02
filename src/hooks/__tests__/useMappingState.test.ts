@@ -20,28 +20,45 @@ describe("useMappingState", () => {
     let callback: jest.Mock;
     let unregister: () => void;
 
-    beforeEach(() => {
-      callback = jest.fn();
-      act(() => {
-        unregister = hook.result.current.register("Alt+N", callback);
-      });
-    });
+    describe.each([
+      [true, true],
+      [false, false],
+      [undefined, true],
+    ])(
+      "when preventDefault is %s",
+      (inputPreventDefault, expectedPreventDefault) => {
+        beforeEach(() => {
+          callback = jest.fn();
+          act(() => {
+            unregister = hook.result.current.register(
+              "Alt+N",
+              callback,
+              inputPreventDefault
+            );
+          });
+        });
 
-    it("adds an item", () => {
-      expect(hook.result.current.mappings).toEqual([
-        { sequence: ["Alt", "N"], callback },
-      ]);
-    });
+        it("adds an item", () => {
+          expect(hook.result.current.mappings).toEqual([
+            {
+              sequence: ["Alt", "N"],
+              callback,
+              preventDefault: expectedPreventDefault,
+            },
+          ]);
+        });
 
-    describe("when the returned unregister function is called", () => {
-      beforeEach(() => {
-        act(unregister);
-      });
+        describe("when the returned unregister function is called", () => {
+          beforeEach(() => {
+            act(unregister);
+          });
 
-      it("removes the item", () => {
-        expect(hook.result.current.mappings).toEqual([]);
-      });
-    });
+          it("removes the item", () => {
+            expect(hook.result.current.mappings).toEqual([]);
+          });
+        });
+      }
+    );
   });
 });
 

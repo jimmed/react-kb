@@ -5,6 +5,32 @@ describe("useEventListener", () => {
   let listener: jest.Mock;
   let hook: RenderHookResult<void, void>;
 
+  describe("when no target is provided", () => {
+    beforeEach(() => {
+      listener = jest.fn();
+      jest.spyOn(window, "addEventListener");
+      jest.spyOn(window, "removeEventListener");
+      hook = renderHook(() => useEventListener(null, "keydown", listener));
+    });
+
+    it("does not attach an event listener", () => {
+      expect(window.addEventListener).not.toHaveBeenCalledWith(
+        "keydown",
+        listener
+      );
+    });
+
+    describe("when the target fires an event", () => {
+      beforeEach(() => {
+        window.dispatchEvent(new KeyboardEvent("keydown", {}));
+      });
+
+      it("does not fire the callback", () => {
+        expect(listener).not.toHaveBeenCalled();
+      });
+    });
+  });
+
   describe("on mount", () => {
     beforeEach(() => {
       listener = jest.fn();
