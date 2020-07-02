@@ -3,11 +3,11 @@ import {
   renderHook,
   RenderHookResult,
 } from "@testing-library/react-hooks";
-import { RegisterKeyboardShortcut } from "../../types";
+import { KeyboardShortcutsApi } from "../../types";
 import { useKeyboardShortcutsApi } from "../useKeyboardShortcutsApi";
 
 describe("useKeyboardShorcutsApi", () => {
-  let hook: RenderHookResult<Element | Window, RegisterKeyboardShortcut>;
+  let hook: RenderHookResult<Element | Window, KeyboardShortcutsApi>;
   let element: HTMLDivElement;
 
   const render = (target: Element | Window) => {
@@ -30,7 +30,7 @@ describe("useKeyboardShorcutsApi", () => {
       beforeEach(() => {
         callback = jest.fn();
         act(() => {
-          hook.result.current("Ctrl+N", callback);
+          hook.result.current.registerShortcut("Ctrl+N", callback);
         });
       });
 

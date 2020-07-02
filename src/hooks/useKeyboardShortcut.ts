@@ -7,8 +7,8 @@ export const useKeyboardShortcut = (
   callback: () => void,
   preventDefault = true
 ) => {
-  const register = useContext(KeyboardShortcutsContext);
-  useEffect(() => register(sequence, callback, preventDefault), [
+  const { registerShortcut } = useContext(KeyboardShortcutsContext);
+  useEffect(() => registerShortcut(sequence, callback, preventDefault), [
     sequence,
     callback,
     preventDefault,

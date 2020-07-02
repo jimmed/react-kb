@@ -68,3 +68,24 @@ render(
   rootElement
 );
 ```
+
+### Ignoring keypresses for a specific element
+
+If you want to ignore keypresses made within a particular element, you can use the `useIgnoreKeyboardShortcuts` hook.
+
+By passing an element to this hook, any keypresses made within this element will be completely ignored.
+
+```tsx
+const OuterElement = ({ onEnterPress }) => {
+  const inputRef = useRef()
+  useKeyboardShortcut('Enter', onEnterPress)
+  useIgnoreKeyboardShortcuts(inputRef)
+
+  return (
+    <div>
+      <input placeholder="Events will be caught here">
+      <input ref={inputRef} placeholder="Events won't be caught here" />
+    </div>
+  )
+}
+```

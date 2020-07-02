@@ -30,7 +30,7 @@ describe("useMappingState", () => {
         beforeEach(() => {
           callback = jest.fn();
           act(() => {
-            unregister = hook.result.current.register(
+            unregister = hook.result.current.registerShortcut(
               "Alt+N",
               callback,
               inputPreventDefault
